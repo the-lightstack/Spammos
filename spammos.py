@@ -54,17 +54,21 @@ def setup_argparse():
 							 default=10)
 	parser.add_argument("-a",help="specifiy amount of requests per thread",
 							 default=10)	
+	parser.add_argument("-u",help="The url to spam",
+						     default=None)
 	args = parser.parse_args()
+	if args.u == None:
+		exit("Domain has to be specified. -h for help")
 	try:
-		return int(args.t),int(args.a)
+		return int(args.t),int(args.a),args.u
 	except:
 		print("Arguments must be integers")		
 
 
 def main():
-	thread_amount,spam_per_thread = setup_argparse()
-	threads = []
-	target_url = "https://imageshare.best/image.php?id=UH3D7I.jpg"
+	thread_amount,spam_per_thread,target_url = setup_argparse()
+	threads = []	
+
 	for i in range(thread_amount):
 	
 		threads.append(threading.Thread(target=spammer,args=(spam_per_thread,target_url,True)))
